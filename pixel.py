@@ -14,7 +14,8 @@ class PixelArray():
         self.num_pixels = num_pixels
         self.pixels = [Pixel() for _ in range(num_pixels)]
 
-    def fill(grb) 
+    def fill(grb):
+        list(map(lambda c: c.color = grb, self.pixels))
 
     def __repr__(self):
         return ' - '.join(self.pixels)
