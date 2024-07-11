@@ -3,7 +3,7 @@ class Pixel():
         self.color = grb
         self.brightness = how_bright
 
-    def brightness(self, value):
+    def set_brightness(self, value):
         self.brightness = value
 
     def set_color(self, grb):
