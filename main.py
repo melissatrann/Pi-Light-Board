@@ -28,8 +28,8 @@ sensor = machine.ADC(SENSOR_PIN)
 def main():
     # Read from sensor, run the routine if above heuristic value of 50.
     while True:
-        analog_value = sensor.read_u16() // 257
-        time.sleep_ms(200) # wait for sensor reading to complete
+        analog_value = sensor.read_u16() // 300
+        time.sleep_ms(100) # wait for sensor reading to complete
         
         if analog_value > SENSOR_ACTIVATION_HEURISTIC:
             # Randomly finds a pixel to turn off, waits, and then repeats.
