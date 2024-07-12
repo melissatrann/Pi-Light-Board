@@ -364,3 +364,30 @@ class Neopixel:
         :return: None
         """
         self.pixels = array.array("I", [0] * self.num_leds)
+## method to set all pixels to a certain color
+np = Neopixel(NUM_PIXELS, NEOPIXEL_PIN)
+
+def set_all_pixels(color):
+    for i in range(NUM_PIXELS):
+        np[i] = color
+    np.show()
+
+#Creates pulsing light effect by gradually increasing and decreasing the brightness of specified color
+# Loops through range of of brightness scaling the GRB components
+#color (tuple): The GRB color tuple to use for the pulsing effect
+#steps (int): The number of steps to incrementally change the brightness otherwise default 50ms
+#delay (int): The delay in milliseconds between each brightness change step otherwise default 20ms
+
+def pulsing_effect(color, steps=50, delay=20):
+    # Increasing brightness
+    for i in range(steps):
+        brightness = i / steps
+        scaled_color = tuple(int(brightness * c) for c in color)
+        set_all_pixels(scaled_color)
+        time.sleep_ms(delay)
+    # Decreasing brightness
+    for i in range(steps):
+        brightness = (steps - i) / steps
+        scaled_color = tuple(int(brightness * c) for c in color)
+        set_all_pixels(scaled_color)
+        time.sleep_ms(delay)
