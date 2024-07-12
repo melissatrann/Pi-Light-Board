@@ -1,7 +1,7 @@
 from neopixel import Neopixel
 import time, random
 from machine import Pin, ADC
-from collections import deque
+from buffer import FixedLengthBuffer
 
 # A color is a triple (G, R, B), defined in the usual manner.
 OFF = (0, 0, 0)
@@ -15,7 +15,7 @@ NUM_PIXELS = 32
 NEOPIXEL_PIN = 15
 SENSOR_PIN = 28
 SENSOR_ACTIVATION_HEURISTIC = 50
-SMOOTHING_WINDOW_SIZE = 20
+SMOOTHING_WINDOW_SIZE = 5
 
 # Set up neopixel object. Brightness is set to 10 for ease of use,
 # by default 150 is used to be able to be seen through the board,
@@ -28,23 +28,16 @@ pixels.show()
 # Set up distance sensor.
 sensor = machine.ADC(SENSOR_PIN)
 
-def main():
+def main() -> None:
     # Buffer is used to store recent numbers, computes a moving average
     # to smooth out noisy data from the sensor stream.
-    buffer = deque((), SMOOTHING_WINDOW_SIZE)
+    buf = FixedLengthBuffer(SMOOTHING_WINDOW_SIZE)
     
-    # Read from sensor, run the routine if above heuristic value of 50.
+    # Read from sensor, run the routine if above a heuristically chosen value.
     while True:
-        analog_value = sensor.read_u16() // 300
-        buffer.append(analog_value)
-        total_sum = 0
-        for _ in range(SMOOTHING_WINDOW_SIZE):
-            val = buffer.popleft()
-            total_sum += val
-            buffer.append(val)
-        
-        smooth_value = total_sum / SMOOTHING_WINDOW_SIZE
-        print(smooth_value)
+        analog_value = sensor.read_u16() // 257
+        buf.append(analog_value)  
+        smooth_value = sum(buf) / len(buf)
         
         if smooth_value > SENSOR_ACTIVATION_HEURISTIC:
             # Randomly finds a pixel to turn off, waits, and then repeats.
@@ -55,6 +48,10 @@ def main():
                 time.sleep_ms(200)
                 pixels.fill(WHITE)
                 pixels.show()
+                
+            # To prevent the moving average from staying high for too long
+            # causing multiple detections when there should only be one.
+            buf.clear()
 
             # Blank out pixels at the end, for testing purposes only.
             pixels.fill(OFF)
