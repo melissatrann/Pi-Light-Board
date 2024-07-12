@@ -3,7 +3,7 @@ The Pixel and PixelArray classes implement **models** of the data that is used
 when actually interacting with the Neopixel library. Their mentions in any other
 code will be replaced with actual calls to the Neopixel library when completed.
 """
-class Pixel():
+class Pixel:
     def __init__(self, grb, how_bright):
         self.color = grb
         self.brightness = how_bright
