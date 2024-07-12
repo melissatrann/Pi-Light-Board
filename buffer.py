@@ -60,6 +60,14 @@ class FixedLengthBuffer:
         self.size -= 1
         return val
     
+    def clear(self):
+        """
+        Empty out the buffer.
+        """
+        self.head = None
+        self.tail = None
+        self.size = 0
+    
     def __len__(self):
         """
         Returns the current size of the buffer.
@@ -87,3 +95,4 @@ class FixedLengthBuffer:
             current_node = current_node.next
 
         return result
+
