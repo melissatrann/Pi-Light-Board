@@ -28,7 +28,7 @@ pixels.show()
 # Set up distance sensor.
 sensor = machine.ADC(SENSOR_PIN)
 
-def main() -> None:
+def main():
     # Buffer is used to store recent numbers, computes a moving average
     # to smooth out noisy data from the sensor stream.
     buf = FixedLengthBuffer(SMOOTHING_WINDOW_SIZE)
