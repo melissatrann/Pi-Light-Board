@@ -14,8 +14,8 @@ BLUE = (0, 0, 255)
 NUM_PIXELS = 32
 NEOPIXEL_PIN = 15
 SENSOR_PIN = 28
-SENSOR_ACTIVATION_HEURISTIC = 50
-SMOOTHING_WINDOW_SIZE = 5
+SENSOR_ACTIVATION_HEURISTIC = 30
+SMOOTHING_WINDOW_SIZE = 20
 
 # Set up neopixel object. Brightness is set to 10 for ease of use,
 # by default 150 is used to be able to be seen through the board,
@@ -38,6 +38,7 @@ def main() -> None:
         analog_value = sensor.read_u16() // 257
         buf.append(analog_value)  
         smooth_value = sum(buf) / len(buf)
+        time.sleep_ms(10)
         
         if smooth_value > SENSOR_ACTIVATION_HEURISTIC:
             # Randomly finds a pixel to turn off, waits, and then repeats.
