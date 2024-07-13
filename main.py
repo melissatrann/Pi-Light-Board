@@ -25,14 +25,55 @@ pixels.brightness(10)
 pixels.fill(OFF)
 pixels.show()
 
+
 # Set up distance sensor.
 sensor = machine.ADC(SENSOR_PIN)
+segments = {}
+
+def define_segment(name, start, end):
+    """
+    Defines a segment of the neopixel light
+    
+    Parameters:
+    :name: The name of the segment.
+    :start: The starting index of the segment (inclusive).
+    :end: The ending index of the segment (inclusive).
+    
+    Example:
+    To define the first half of a 16-pixel strip:
+    define_segment("left_half", 0, 7)
+    To define the second half of a 16-pixel strip:
+    define_segment("right_half", 8, 15)
+    """
+    if 0 <= start <= end < NUM_PIXELS:
+        segments[name] = (start, end)
+        
+def set_segment_color(name, color):
+    """
+    Sets the color of a defined segment.
+    
+    Parameters:
+    :name: The name of the segment.
+    :color: The GRB color tuple (G, R, B).
+    
+    Example:
+    set_segment_color("left_half", (0, 255, 0))  # Sets left half to red
+    """
+    if name in segments:
+        start, end = segments[name]
+        for i in range(start, end + 1):
+            pixels.set_pixel(i, color)
+        pixels.show()
 
 def main():
     # Buffer is used to store recent numbers, computes a moving average
     # to smooth out noisy data from the sensor stream.
     buf = FixedLengthBuffer(SMOOTHING_WINDOW_SIZE)
-    
+
+    # Define segments 
+    define_segment("left_half", 0, 7)  # First half of the 16-pixel strip
+    define_segment("right_half", 8, 15)  # Second half of the 16-pixel strip
+
     # Read from sensor, run the routine if above a heuristically chosen value.
     while True:
         analog_value = sensor.read_u16() // 257
@@ -57,6 +98,9 @@ def main():
             # Blank out pixels at the end, for testing purposes only.
             pixels.fill(OFF)
             pixels.show()
+            # Test Apply effects to segments
+            set_segment_color("left_half", BLUE)  # Set left half to blue
+            set_segment_color("right_half", RED)  # Set right half to red
             
 if __name__ == "__main__":
     main()
