@@ -47,6 +47,7 @@ def define_segment(name, start, end):
     """
     if 0 <= start <= end < NUM_PIXELS:
         segments[name] = (start, end)
+        
 def set_segment_color(name, color):
     """
     Sets the color of a defined segment.
