@@ -35,9 +35,9 @@ def define_segment(name, start, end):
     Defines a segment of the neopixel light
     
     Parameters:
-    name (str): The name of the segment.
-    start (int): The starting index of the segment (inclusive).
-    end (int): The ending index of the segment (inclusive).
+    :name: The name of the segment.
+    :start: The starting index of the segment (inclusive).
+    :end: The ending index of the segment (inclusive).
     
     Example:
     To define the first half of a 16-pixel strip:
@@ -53,8 +53,8 @@ def set_segment_color(name, color):
     Sets the color of a defined segment.
     
     Parameters:
-    name (str): The name of the segment.
-    color (tuple): The GRB color tuple (G, R, B).
+    :name: The name of the segment.
+    :color: The GRB color tuple (G, R, B).
     
     Example:
     set_segment_color("left_half", (0, 255, 0))  # Sets left half to red
