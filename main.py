@@ -1,5 +1,5 @@
 from neopixel import Neopixel
-import time, random
+import time, random, gc
 from machine import Pin, ADC
 from buffer import FixedLengthBuffer
 
@@ -29,6 +29,9 @@ pixels.show()
 sensor = machine.ADC(SENSOR_PIN)
 
 def main():
+    # Enable automatic garbage collection.
+    gc.enable()
+
     # Buffer is used to store recent numbers, computes a moving average
     # to smooth out noisy data from the sensor stream.
     buf = FixedLengthBuffer(SMOOTHING_WINDOW_SIZE)
