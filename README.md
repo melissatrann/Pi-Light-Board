@@ -35,3 +35,6 @@ for i in range(len(num_list)):
 ```
 
 Thank you!
+
+## (Current) Order and Size of Neopixel Rings
+Diversity x24 -- Challenge x16 -- Motivate x12 -- Discovery x16 -- Imagine x16 -- Inspire x24 -- Love x12 -- Joy x24
