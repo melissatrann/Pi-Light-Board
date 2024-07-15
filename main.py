@@ -25,7 +25,6 @@ pixels.brightness(10)
 pixels.fill(OFF)
 pixels.show()
 
-
 # Set up distance sensor.
 sensor = machine.ADC(SENSOR_PIN)
 segments = {}
@@ -101,6 +100,7 @@ def main():
             # Blank out pixels at the end, for testing purposes only.
             pixels.fill(OFF)
             pixels.show()
+            
             # Test Apply effects to segments
             set_segment_color("left_half", BLUE)  # Set left half to blue
             set_segment_color("right_half", RED)  # Set right half to red
